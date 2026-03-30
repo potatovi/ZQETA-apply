@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>肇庆市电力行业协会 - 会员申请</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Helvetica Neue', sans-serif;
+      background: #f0f4f8;
+      min-height: 100vh;
+    }
+
+    /* 顶部Banner */
+    .header {
+      background: linear-gradient(135deg, #1a56a0 0%, #0d3a7a 100%);
+      color: #fff;
+      padding: 32px 20px 28px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .header::before {
+      content: '';
+      position: absolute;
+      top: -40px; right: -40px;
+      width: 160px; height: 160px;
+      background: rgba(255,255,255,0.06);
+      border-radius: 50%;
+    }
+    .header::after {
+      content: '';
+      position: absolute;
+      bottom: -30px; left: -30px;
+      width: 120px; height: 120px;
+      background: rgba(255,255,255,0.06);
+      border-radius: 50%;
+    }
+    .header-icon {
+      font-size: 40px;
+      margin-bottom: 10px;
+    }
+    .header h1 {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+    .header p {
+      font-size: 13px;
+      opacity: 0.85;
+      letter-spacing: 0.5px;
+    }
+
+    /* 表单卡片 */
+    .form-wrapper {
+      padding: 16px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 20px 16px;
+      margin-bottom: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+
+    .card-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #1a56a0;
+      margin-bottom: 16px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #e8f0fb;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .card-title::before {
+      content: '';
+      display: inline-block;
+      width: 4px; height: 16px;
+      background: #1a56a0;
+      border-radius: 2px;
+    }
+
+    /* 表单字段 */
+    .field {
+      margin-bottom: 16px;
+    }
+    .field:last-child { margin-bottom: 0; }
+
+    .field label {
+      display: block;
+      font-size: 13px;
+      color: #555;
+      margin-bottom: 6px;
+      font-weight: 500;
+    }
+    .field label .required {
+      color: #e74c3c;
+      margin-left: 2px;
+    }
+
+    .field input,
+    .field select,
+    .field textarea {
+      width: 100%;
+      padding: 11px 14px;
+      border: 1.5px solid #dde3ed;
+      border-radius: 8px;
+      font-size: 15px;
+      color: #333;
+      background: #fafbfd;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+    .field input:focus,
+    .field select:focus,
+    .field textarea:focus {
+      border-color: #1a56a0;
+      box-shadow: 0 0 0 3px rgba(26,86,160,0.1);
+      background: #fff;
+    }
+    .field input::placeholder,
+    .field textarea::placeholder {
+      color: #bbb;
+      font-size: 14px;
+    }
+    .field textarea {
+      min-height: 80px;
+      resize: none;
+      line-height: 1.6;
+    }
+
+    /* 下拉箭头 */
+    .select-wrap {
+      position: relative;
+    }
+    .select-wrap::after {
+      content: '▾';
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #888;
+      pointer-events: none;
+      font-size: 14px;
+    }
+    .select-wrap select {
+      padding-right: 36px;
+      cursor: pointer;
+    }
+
+    /* 单选组 */
+    .radio-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .radio-item {
+      flex: 0 0 auto;
+    }
+    .radio-item input[type="radio"] {
+      display: none;
+    }
+    .radio-item label {
+      display: inline-block;
+      padding: 7px 14px;
+      border: 1.5px solid #dde3ed;
+      border-radius: 20px;
+      font-size: 13px;
+      color: #555;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-bottom: 0;
+      background: #fafbfd;
+    }
+    .radio-item input[type="radio"]:checked + label {
+      background: #1a56a0;
+      border-color: #1a56a0;
+      color: #fff;
+      font-weight: 500;
+    }
+
+    /* 提示文字 */
+    .tip {
+      font-size: 12px;
+      color: #999;
+      margin-top: 4px;
+    }
+
+    /* 提交按钮 */
+    .submit-btn {
+      width: 100%;
+      padding: 15px;
+      background: linear-gradient(135deg, #1a56a0, #0d3a7a);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.1s;
+      margin-top: 4px;
+    }
+    .submit-btn:active {
+      opacity: 0.85;
+      transform: scale(0.98);
+    }
+    .submit-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    /* 底部声明 */
+    .footer-note {
+      text-align: center;
+      font-size: 12px;
+      color: #aaa;
+      padding: 16px 0 24px;
+    }
+
+    /* 成功页面 */
+    .success-page {
+      display: none;
+      text-align: center;
+      padding: 60px 30px;
+    }
+    .success-icon {
+      font-size: 70px;
+      margin-bottom: 20px;
+    }
+    .success-page h2 {
+      font-size: 22px;
+      color: #1a56a0;
+      margin-bottom: 12px;
+    }
+    .success-page p {
+      font-size: 14px;
+      color: #777;
+      line-height: 1.8;
+    }
+
+    /* Loading遮罩 */
+    .loading-mask {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.4);
+      z-index: 999;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .loading-mask.show { display: flex; }
+    .spinner {
+      width: 40px; height: 40px;
+      border: 4px solid rgba(255,255,255,0.3);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    .loading-mask span { color: #fff; font-size: 14px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Toast提示 */
+    .toast {
+      position: fixed;
+      bottom: 80px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: rgba(0,0,0,0.75);
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 20px;
+      font-size: 14px;
+      opacity: 0;
+      transition: all 0.3s;
+      white-space: nowrap;
+      z-index: 1000;
+      pointer-events: none;
+    }
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+<!-- Loading遮罩 -->
+<div class="loading-mask" id="loadingMask">
+  <div class="spinner"></div>
+  <span>正在提交，请稍候…</span>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<!-- 顶部Banner -->
+<div class="header">
+  <div class="header-icon">⚡</div>
+  <h1>肇庆市电力行业协会</h1>
+  <p>会员申请登记表</p>
+</div>
+
+<div class="form-wrapper">
+
+  <!-- 成功页 -->
+  <div class="success-page" id="successPage">
+    <div class="success-icon">✅</div>
+    <h2>申请已提交！</h2>
+    <p>感谢您申请加入肇庆市电力行业协会<br>我们将尽快与您联系，请保持电话畅通。</p>
+  </div>
+
+  <!-- 表单 -->
+  <div id="formContent">
+
+    <!-- 单位信息 -->
+    <div class="card">
+      <div class="card-title">单位基本信息</div>
+
+      <div class="field">
+        <label>单位名称 <span class="required">*</span></label>
+        <input type="text" id="companyName" placeholder="请输入单位全称" />
+      </div>
+
+      <div class="field">
+        <label>法定代表人 <span class="required">*</span></label>
+        <input type="text" id="legalPerson" placeholder="请输入法定代表人姓名" />
+      </div>
+
+      <div class="field">
+        <label>所属区县 <span class="required">*</span></label>
+        <div class="select-wrap">
+          <select id="district">
+            <option value="">请选择所属区县</option>
+            <option>端州区</option>
+            <option>鼎湖区</option>
+            <option>高要区</option>
+            <option>四会市</option>
+            <option>广宁县</option>
+            <option>怀集县</option>
+            <option>封开县</option>
+            <option>德庆县</option>
+            <option>肇庆高新区</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>通讯地址 <span class="required">*</span></label>
+        <input type="text" id="address" placeholder="请输入单位通讯地址" />
+      </div>
+
+      <div class="field">
+        <label>经营范围</label>
+        <textarea id="bizScope" placeholder="请简要描述单位主要经营范围（选填）"></textarea>
+      </div>
+    </div>
+
+    <!-- 联系人信息 -->
+    <div class="card">
+      <div class="card-title">联系人信息</div>
+
+      <div class="field">
+        <label>联系人姓名 <span class="required">*</span></label>
+        <input type="text" id="contactName" placeholder="请输入联系人姓名" />
+      </div>
+
+      <div class="field">
+        <label>联系人职务 <span class="required">*</span></label>
+        <input type="text" id="contactTitle" placeholder="请输入联系人职务" />
+      </div>
+
+      <div class="field">
+        <label>联系电话 <span class="required">*</span></label>
+        <input type="tel" id="phone" placeholder="请输入联系电话" />
+      </div>
+    </div>
+
+    <!-- 意向任职 -->
+    <div class="card">
+      <div class="card-title">意向任职</div>
+      <div class="field">
+        <div class="radio-group">
+          <div class="radio-item">
+            <input type="radio" name="position" id="p0" value="普通会员" checked />
+            <label for="p0">普通会员</label>
+          </div>
+          <div class="radio-item">
+            <input type="radio" name="position" id="p1" value="理事" />
+            <label for="p1">理事</label>
+          </div>
+          <div class="radio-item">
+            <input type="radio" name="position" id="p2" value="副会长" />
+            <label for="p2">副会长</label>
+          </div>
+          <div class="radio-item">
+            <input type="radio" name="position" id="p3" value="秘书长" />
+            <label for="p3">秘书长</label>
+          </div>
+          <div class="radio-item">
+            <input type="radio" name="position" id="p4" value="监事" />
+            <label for="p4">监事</label>
+          </div>
+          <div class="radio-item">
+            <input type="radio" name="position" id="p5" value="监事长" />
+            <label for="p5">监事长</label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <button class="submit-btn" id="submitBtn" onclick="submitForm()">提交申请</button>
+      <p class="tip" style="text-align:center;margin-top:12px;">提交后协会工作人员将尽快与您联系</p>
+    </div>
+
+  </div><!-- /formContent -->
+
+  <div class="footer-note">肇庆市电力行业协会 © 2026</div>
+</div>
+
+<script>
+  // =============================================
+  // ⚙️ 配置区：填入你的钉钉Webhook地址
+  // =============================================
+  const DINGTALK_WEBHOOK = 'https://oapi.dingtalk.com/robot/send?access_token=989a264854cd79d637b8a4d6b1c741eb2fc2b78829d428cc0b983baacb2d9082';
+  // =============================================
+
+  function getVal(id) {
+    return document.getElementById(id).value.trim();
+  }
+
+  function showToast(msg, duration = 2500) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), duration);
+  }
+
+  function setLoading(show) {
+    const mask = document.getElementById('loadingMask');
+    mask.classList.toggle('show', show);
+    document.getElementById('submitBtn').disabled = show;
+  }
+
+  function getSelectedPosition() {
+    const radios = document.querySelectorAll('input[name="position"]');
+    for (const r of radios) {
+      if (r.checked) return r.value;
+    }
+    return '普通会员';
+  }
+
+  function validate() {
+    const fields = [
+      { id: 'companyName', label: '单位名称' },
+      { id: 'legalPerson', label: '法定代表人' },
+      { id: 'district',    label: '所属区县' },
+      { id: 'address',     label: '通讯地址' },
+      { id: 'contactName', label: '联系人姓名' },
+      { id: 'contactTitle',label: '联系人职务' },
+      { id: 'phone',       label: '联系电话' },
+    ];
+    for (const f of fields) {
+      if (!getVal(f.id)) {
+        showToast(`请填写${f.label}`);
+        document.getElementById(f.id).focus();
+        return false;
+      }
+    }
+    const phone = getVal('phone');
+    if (!/^[\d\-\+\(\)\s]{7,15}$/.test(phone)) {
+      showToast('请输入正确的联系电话');
+      document.getElementById('phone').focus();
+      return false;
+    }
+    return true;
+  }
+
+  async function submitForm() {
+    if (!validate()) return;
+
+    const now = new Date();
+    const timeStr = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+
+    const data = {
+      companyName:  getVal('companyName'),
+      legalPerson:  getVal('legalPerson'),
+      district:     getVal('district'),
+      address:      getVal('address'),
+      bizScope:     getVal('bizScope') || '未填写',
+      contactName:  getVal('contactName'),
+      contactTitle: getVal('contactTitle'),
+      phone:        getVal('phone'),
+      position:     getSelectedPosition(),
+      time:         timeStr,
+    };
+
+    const msg = {
+      msgtype: 'markdown',
+      markdown: {
+        title: '📋 新入会申请',
+        text: `## 📋 新入会申请\n\n` +
+          `> **提交时间**：${data.time}\n\n` +
+          `---\n\n` +
+          `**🏢 单位名称**：${data.companyName}\n\n` +
+          `**👤 法定代表人**：${data.legalPerson}\n\n` +
+          `**📍 所属区县**：${data.district}\n\n` +
+          `**🏠 通讯地址**：${data.address}\n\n` +
+          `**📌 经营范围**：${data.bizScope}\n\n` +
+          `---\n\n` +
+          `**🙋 联系人**：${data.contactName}（${data.contactTitle}）\n\n` +
+          `**📱 联系电话**：${data.phone}\n\n` +
+          `**🎯 意向任职**：${data.position}\n\n` +
+          `---\n\n` +
+          `> ⚡ 请及时跟进联系！`
+      }
+    };
+
+    setLoading(true);
+
+    try {
+      await fetch(DINGTALK_WEBHOOK, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(msg),
+        mode: 'no-cors',
+      });
+
+      // 提交成功，显示成功页
+      setLoading(false);
+      document.getElementById('formContent').style.display = 'none';
+      document.getElementById('successPage').style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    } catch (err) {
+      setLoading(false);
+      showToast('提交失败，请检查网络后重试');
+    }
+  }
+</script>
+
+</body>
+</html>
