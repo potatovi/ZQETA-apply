@@ -433,9 +433,10 @@
 
 <script>
   // =============================================
-  // ⚙️ 配置区：填入你的钉钉Webhook地址
+  // ⚙️ 配置区：Vercel API 地址（部署后替换）
   // =============================================
-  const DINGTALK_WEBHOOK = 'https://oapi.dingtalk.com/robot/send?access_token=989a264854cd79d637b8a4d6b1c741eb2fc2b78829d428cc0b983baacb2d9082';
+  const API_URL = 'YOUR_VERCEL_API_URL/api/submit';
+  // 示例: 'https://zqeta-apply.vercel.app/api/submit'
   // =============================================
 
   function getVal(id) {
@@ -508,43 +509,24 @@
       time:         timeStr,
     };
 
-    const msg = {
-      msgtype: 'markdown',
-      markdown: {
-        title: '📋 新入会申请',
-        text: `## 📋 新入会申请\n\n` +
-          `> **提交时间**：${data.time}\n\n` +
-          `---\n\n` +
-          `**🏢 单位名称**：${data.companyName}\n\n` +
-          `**👤 法定代表人**：${data.legalPerson}\n\n` +
-          `**📍 所属区县**：${data.district}\n\n` +
-          `**🏠 通讯地址**：${data.address}\n\n` +
-          `**📌 经营范围**：${data.bizScope}\n\n` +
-          `---\n\n` +
-          `**🙋 联系人**：${data.contactName}（${data.contactTitle}）\n\n` +
-          `**📱 联系电话**：${data.phone}\n\n` +
-          `**🎯 意向任职**：${data.position}\n\n` +
-          `---\n\n` +
-          `> ⚡ 请及时跟进联系！`
-      }
-    };
-
     setLoading(true);
 
     try {
-      await fetch(DINGTALK_WEBHOOK, {
+      const resp = await fetch(API_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(msg),
-        mode: 'no-cors',
+        body: JSON.stringify(data),
       });
+      const json = await resp.json();
 
-      // 提交成功，显示成功页
-      setLoading(false);
-      document.getElementById('formContent').style.display = 'none';
-      document.getElementById('successPage').style.display = 'block';
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-
+      if (json.ok) {
+        setLoading(false);
+        document.getElementById('formContent').style.display = 'none';
+        document.getElementById('successPage').style.display = 'block';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        throw new Error(json.error || '服务器错误');
+      }
     } catch (err) {
       setLoading(false);
       showToast('提交失败，请检查网络后重试');
